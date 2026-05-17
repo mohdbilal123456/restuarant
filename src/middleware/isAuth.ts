@@ -30,7 +30,8 @@ export const isAuth = async (
     const cookieToken = req.cookies?.accessToken as string | undefined;
     const token = bearerToken || cookieToken;
     console.log("tokeb",token)
-
+console.log("cookies", req.cookies)
+console.log("headers", req.headers.cookie)
 
     if (!token) {
       res.status(401).json({
