@@ -14,10 +14,15 @@ app.use(morgan("dev"));
 app.use(cookieParser());
 const port = process.env.PORT || 6000
 
-app.use(cors({
-  origin: "http://localhost:5173",
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://tomatofrontend-w08d.onrender.com"
+    ],
+    credentials: true,
+  })
+);
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
