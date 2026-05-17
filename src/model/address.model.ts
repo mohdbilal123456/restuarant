@@ -1,25 +1,55 @@
-import mongoose,{Schema,Document} from "mongoose";
+import mongoose, { Schema, Document } from "mongoose";
 
+export interface IAddress extends Document {
+  userId: string;
+  mobile: number;
+  formattedAddress: string;
 
-export interface IAddress extends Document{
-  userId:string,
-  mobile:number,
-
-  formattedAddress:string,
-
-  location:{
-    type:"Point",
-    coordinates:[number,number]
+  location: {
+    type: "Point";
+    coordinates: [number, number];
   };
-  createdAt:Date,
-  updatedAt:Date
+
+  createdAt: Date;
+  updatedAt: Date;
 }
 
+const schema = new Schema<IAddress>(
+  {
+    userId: {
+      type: String,
+      required: true,
+    },
 
-const schema = new Schema<IAddress>({
-  userId:{
-    type:String,
-    required:true
+    mobile: {
+      type: Number,
+      required: true,
+    },
+
+    formattedAddress: {
+      type: String,
+      required: true,
+    },
+
+    location: {
+      type: {
+        type: String,
+        enum: ["Point"],
+        default: "Point",
+      },
+
+      coordinates: {
+        type: [Number],
+        required: true,
+      },
+    },
   },
-  mobile:
-},{timestamps:true})
+  { timestamps: true }
+);
+
+schema.index({ location: "2dsphere" });
+
+export const Address = mongoose.model<IAddress>(
+  "Address",
+  schema
+);
